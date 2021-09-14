@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import PostForm from "./components/PostForm";
 import MyModal from "./components/UI/MyModal/MyModal";
-
+import {usePosts} from './hooks/usePosts'
 import PostList from "./components/PostList";
 import PostFilter from "./components/PostFilter";
 import MyButton from "./components/UI/button/MyButton";
