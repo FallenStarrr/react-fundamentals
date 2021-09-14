@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo,  useEffect } from "react";
 import PostForm from "./components/PostForm";
 import axios from 'axios'
 import MyModal from "./components/UI/MyModal/MyModal";
@@ -15,7 +15,11 @@ function App() {
   const [filter, setFilter] = useState({ sort: "", query: "" });
   const [modal, setModal] = useState(false);
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
-
+  
+  
+ useEffect(() => {
+     fetchPosts()
+  }, [])
   
  async  function fetchPosts() {
     const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
