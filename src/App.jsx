@@ -8,11 +8,13 @@ import PostFilter from "./components/PostFilter";
 import MyButton from "./components/UI/button/MyButton";
 import "./styles/App.css";
 import PostService from "./API/PostService";
+import Loader from "./components/UI/Loader/Loader";
+
 
 
 function App() {
   const [posts, setPosts] = useState();
-
+  const [isPostsLoading, setIsPostsLoading] = useState(false)
   const [filter, setFilter] = useState({ sort: "", query: "" });
   const [modal, setModal] = useState(false);
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
@@ -38,6 +40,7 @@ function App() {
 
   return (
     <div className="App">
+      <button onClick={fetchPosts}>GET POSTS</button>
       <MyButton style={{ marginTop: "50px" }} onClick={() => setModal(true)}>
         Создать пользователя
       </MyButton>
@@ -48,11 +51,14 @@ function App() {
       <hr style={{ margin: "15px 0" }} />
       <PostFilter filter={filter} setFilter={setFilter} />
 
-      <PostList
+      {isPostsLoading 
+      ? <Loader/>
+      : <PostList
         remove={removePost}
         posts={sortedAndSearchedPosts}
         title={"Список постов 1"}
-      />
+      /> 
+}
     </div>
   );
 }
