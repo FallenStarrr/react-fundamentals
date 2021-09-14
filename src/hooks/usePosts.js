@@ -1,3 +1,6 @@
+import React, { useState, useMemo } from "react";
+
+
 export const useSortedPosts = (posts, sort) => {
   const sortedPosts = useMemo(() => {
     console.log("ОТРАБОТАЛА ФУНКЦИЯ СОРТЕД ПОСТ");
