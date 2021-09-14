@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import PostForm from "./components/PostForm";
+import axios from 'axios'
 import MyModal from "./components/UI/MyModal/MyModal";
 import {usePosts} from './hooks/usePosts'
 import PostList from "./components/PostList";
