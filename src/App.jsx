@@ -16,7 +16,11 @@ function App() {
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
 
   
-
+ async  function fetchPosts() {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+    console.log(response.data)
+  }
+  
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
     setModal(false);
