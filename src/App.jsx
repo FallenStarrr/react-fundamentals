@@ -1,13 +1,12 @@
 import React, { useState, useMemo } from "react";
-import PostItem from "./components/PostItem";
 import PostForm from "./components/PostForm";
-import MyModal from "./components/UI/MyModal";
+import MyModal from "./components/UI/MyModal/MyModal";
 
 import PostList from "./components/PostList";
+import PostFilter from "./components/PostFilter";
 import MyButton from "./components/UI/button/MyButton";
-import MyInput from "./components/UI/input/MyInput";
 import "./styles/App.css";
-import MySelect from "./components/UI/select/MySelect";
+
 
 function App() {
   const [posts, setPosts] = useState([
