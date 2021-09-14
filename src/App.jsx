@@ -52,7 +52,7 @@ function App() {
       <PostFilter filter={filter} setFilter={setFilter} />
 
       {isPostsLoading 
-      ? <div style={{display: 'flex', justifyContent: 'center'}}><Loader/><div/>
+      ? <div style={{display: 'flex', justifyContent: 'center',  marginTop: '50px'}}><Loader/><div/>
       : <PostList
         remove={removePost}
         posts={sortedAndSearchedPosts}
