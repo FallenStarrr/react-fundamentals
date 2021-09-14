@@ -1,21 +1,19 @@
-import cl from "./MyModal.module.css"
+import cl from "./MyModal.module.css";
 
+const MyModal = ({ children, visible, setVisible }) => {
+  const rootClasses = [cl.myModal];
 
-const MyModal = ({children, visible, setVisible}) => {
+  if (visible) {
+    rootClasses.push(cl.active);
+  }
 
-    const rootClasses = [cl.myModal]
+  return (
+    <div className={rootClasses.join(" ")} onClick={() => setVisible(false)}>
+      <div className={cl.myModuleContent} onClick={(e) => e.stopPropagation()}>
+        {children}
+      </div>
+    </div>
+  );
+};
 
-    if (visible) {
-        rootClasses.push(cl.active)
-    }
-
-    return (
-        <div className={rootClasses.join(' ')} onClick={() => setVisible(false)}>
-                <div className={cl.myModuleContent} onClick={(e) => e.stopPropagation()}>
-{children}
-                </div>
-        </div>
-    )
-}
-
-export default MyModule
+export default MyModal;
