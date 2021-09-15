@@ -19,7 +19,7 @@ function App() {
   const [totalPages, setTotalPages] = useState(0)
   const [limit, setLimit] = useState(10)
   const [page, setPage] = useState(2)
-  let pagesArray = usePagination(totalPages)
+ 
   
  
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
@@ -82,20 +82,7 @@ function App() {
           title={"Список постов 1"}
         />
       )}
-      <div className="page__wrapper">
-      {pagesArray.map(p => 
-        <span 
-        onClick={() => changePage(p)}
-        key={p}
-        className={page === p ? 'page page__current': 'page'}>
-          
-          {p}
-           
-        </span>
-        )}
-      </div>
-     
-    </div>
+     </div> 
   );
 }
 
