@@ -9,7 +9,8 @@ import MyButton from "./components/UI/button/MyButton";
 import "./styles/App.css";
 import PostService from "./API/PostService";
 import Loader from "./components/UI/Loader/Loader";
-
+import { useFetching } from "./hooks/useFetching";
+import { getPageCount } from './utils/pages'
 
 
 function App() {
@@ -18,16 +19,22 @@ function App() {
   const [filter, setFilter] = useState({ sort: "", query: "" });
   const [modal, setModal] = useState(false);
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+  const [totalPages, setTotalPages] = useState(0)
+  const [limit, setLimit] = useState(10)
+  const [page, setPage] = useState(1)
   
+  const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
+    const response = await PostService.getAll(limit, page);
+    setPosts(response.data);
+    const totalCount = response.headers['x-total-count']
+    setTotalPages(getPageCount(totalCount, limit))
+  });
   
  useEffect(() => {
      fetchPosts()
   }, [])
   
- async  function fetchPosts() {
-     const posts = await PostService.getAll()
-     setPosts(posts)
-  }
+
   
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -40,7 +47,7 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={fetchPosts}>GET POSTS</button>
+    
       <MyButton style={{ marginTop: "50px" }} onClick={() => setModal(true)}>
         Создать пользователя
       </MyButton>
@@ -50,7 +57,7 @@ function App() {
 
       <hr style={{ margin: "15px 0" }} />
       <PostFilter filter={filter} setFilter={setFilter} />
-
+      {postError && <h1>Произошка ошибка </h1>}
       {isPostsLoading 
       ? <div style={{display: 'flex', justifyContent: 'center',  marginTop: '50px'}}><Loader/><div/>
       : <PostList
