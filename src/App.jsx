@@ -9,22 +9,26 @@ import Loader from "./components/UI/Loader/Loader";
 import "./styles/App.css";
 import PostService from "./API/PostService";
 import { useFetching } from "./hooks/useFetching";
+import { usePagination } from "./hooks/usePagination";
+import { getPageCount } from './utils/pages'
 
 function App() {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({ sort: "", query: "" });
   const [modal, setModal] = useState(false);
-  const [totalCount, setTotalCount] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
   const [limit, setLimit] = useState(10)
-  const [page, setPage] = useState(1)
-
-
+  const [page, setPage] = useState(2)
+  let pagesArray = usePagination(totalPages)
+  
+ 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
     const response = await PostService.getAll(limit, page);
     setPosts(response.data);
-    setTotalCount(response.headers['x-total-count'])
+    const totalCount = response.headers['x-total-count']
+    setTotalPages(getPageCount(totalCount, limit))
   });
 
   useEffect(() => {
@@ -42,7 +46,7 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={fetchPosts}>GET POSTS</button>
+      
       <MyButton style={{ marginTop: "50px" }} onClick={() => setModal(true)}>
         Создать пользователя
       </MyButton>
@@ -70,6 +74,16 @@ function App() {
           title={"Список постов 1"}
         />
       )}
+      <div className="page__wrapper">
+      {pagesArray.map(p => 
+        <span className={page === p ? 'page page__current': 'page'}>
+          
+          {p}
+           
+        </span>
+        )}
+      </div>
+     
     </div>
   );
 }
