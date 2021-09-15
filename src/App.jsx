@@ -10,26 +10,27 @@ import "./styles/App.css";
 import PostService from "./API/PostService";
 import { useFetching } from "./hooks/useFetching";
 import { usePagination } from "./hooks/usePagination";
-import { getPageCount } from './utils/pages'
+import { getPageCount } from "./utils/pages";
+import Pagination from "./components/UI/pagination/Pagination";
 
 function App() {
   const [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({ sort: "", query: "" });
   const [modal, setModal] = useState(false);
-  const [totalPages, setTotalPages] = useState(0)
-  const [limit, setLimit] = useState(10)
-  const [page, setPage] = useState(2)
- 
-  
- 
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(2);
+
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
-  const [fetchPosts, isPostsLoading, postError] = useFetching(async (limit, page) => {
-    const response = await PostService.getAll(limit, page);
-    setPosts(response.data);
-    const totalCount = response.headers['x-total-count']
-    setTotalPages(getPageCount(totalCount, limit))
-  });
+  const [fetchPosts, isPostsLoading, postError] = useFetching(
+    async (limit, page) => {
+      const response = await PostService.getAll(limit, page);
+      setPosts(response.data);
+      const totalCount = response.headers["x-total-count"];
+      setTotalPages(getPageCount(totalCount, limit));
+    }
+  );
 
   useEffect(() => {
     fetchPosts(limit, page);
@@ -43,18 +44,14 @@ function App() {
   const removePost = (post) => {
     setPosts(posts.filter((p) => p.id !== post.id));
   };
-  
+
   const changePage = (page) => {
-    setPage(page)
-    fetchPosts(limit, page)
-    
-  }
-
-
+    setPage(page);
+    fetchPosts(limit, page);
+  };
 
   return (
     <div className="App">
-      
       <MyButton style={{ marginTop: "50px" }} onClick={() => setModal(true)}>
         Создать пользователя
       </MyButton>
@@ -82,7 +79,12 @@ function App() {
           title={"Список постов 1"}
         />
       )}
-     </div> 
+      <Pagination page={page} 
+      changePage={changePage} 
+      totalPages={totalPages}
+       />
+    </div>
+
   );
 }
 
