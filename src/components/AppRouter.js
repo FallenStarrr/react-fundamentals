@@ -24,7 +24,7 @@ function AppRouter() {
         <Route path="/error">
           <Error />
         </Route>
-        <Redirect to="/error" />
+        <Redirect to="/posts" />
       </Switch>
 
   )
