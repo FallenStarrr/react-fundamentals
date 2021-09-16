@@ -4,6 +4,7 @@ import About from "./pages/About";
 import "./styles/App.css";
 import Posts from "./pages/Posts";
 import Navbar from "./components/UI/navbar/Navbar";
+import Error from "./pages/Error";
 
 function App() {
   return (
@@ -17,8 +18,11 @@ function App() {
         <Route path="/posts">
           <Posts />
         </Route>
-       <Redirect to="/posts"/>
 
+        <Route path="/error">
+          <Error />
+        </Route>
+        <Redirect to="/error" />
       </Switch>
     </BrowserRouter>
   );
